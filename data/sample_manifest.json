@@ -1,0 +1,72 @@
+[
+    {
+        "filename": "module1.pdf",
+        "module_code": "CB-123",
+        "page_count": 10,
+        "file_size_kb": 50.5,
+        "has_toc": true,
+        "has_images": false,
+        "author": "Abdul",
+        "status": "review"
+    },
+    {
+        "filename": "module2.pdf",
+        "module_code": "XYZ-456",
+        "page_count": -8,
+        "file_size_kb": 5,
+        "has_toc": true,
+        "has_images": false,
+        "author": "",
+        "status": "draft"
+    },
+    {
+        "filename": "module3.pdf",
+        "module_code": "ABCD-901",
+        "page_count": 25,
+        "file_size_kb": -96,
+        "has_toc": true,
+        "has_images": false,
+        "author": "Abdul",
+        "status": "final"
+    },
+    {
+        "filename": "module4.pdf",
+        "module_code": "PY-234",
+        "page_count": 42,
+        "file_size_kb": 125.75,
+        "has_toc": false,
+        "has_images": true,
+        "author": "Rahul",
+        "status": "review"
+    },
+    {
+        "filename": "module5.pdf",
+        "module_code": "FAST-567",
+        "page_count": 0,
+        "file_size_kb": 80,
+        "has_toc": "Yes",
+        "has_images": false,
+        "author": "Amit",
+        "status": "published"
+    },
+    {
+        "filename": "module6.pdf",
+        "module_code": "DB-789",
+        "page_count": 18,
+        "file_size_kb": 250.25,
+        "has_toc": true,
+        "has_images": "Yes",
+        "author": "",
+        "status": "draft"
+    },
+    {
+        "filename": "module7.pdf",
+        "module_code": "API-321",
+        "page_count": 35,
+        "file_size_kb": 175.5,
+        "has_toc": false,
+        "has_images": true,
+        "author": "Vikas",
+        "status": "final"
+    }
+]

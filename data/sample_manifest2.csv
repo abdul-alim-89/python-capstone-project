@@ -1,0 +1,7 @@
+filename,module_code,page_count,file_size_kb,has_toc,has_images,author,status
+module1.pdf,EGS-123,10,50.5,TRUE,FALSE,Abdul,review
+module2.pdf,CHM-456,-8,5,Yes,FALSE,,draft
+module3.pdf,IIT-901,25,-96,TRUE,FALSE,Abdul,final
+module4.pdf,CS-40,-52,58.52,TRUE,no,,working
+module5.pdf,CS-899,25,85.6,TRUE,TRUE,,final
+module6.pdf,PS-85,15,1024,yesy,TRUE,,final
