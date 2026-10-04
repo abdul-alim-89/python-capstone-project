@@ -4,6 +4,7 @@ from function_based.readjson import read_json
 from function_based.helper import compliance_rate, compliance_rate_by_item
 from function_based.validation import validate_row
 from function_based.customerror import InvalidRowError, MissingManifestError
+from function_based.log_time import log_and_time
 
 def read_manifest(file_path: Path):
     """Read CSV or JSON manifest."""
@@ -21,6 +22,7 @@ def read_manifest(file_path: Path):
             f"unsupported file type: {file_path.suffix}"
         )
     
+@log_and_time   
 def process_file(file):
     """Process a single CSV or JSON file and return compliance report."""
     # print("prcoess", file)
@@ -85,7 +87,7 @@ def process_file(file):
             compliant = False
             filename = row.get("filename")
             issues = ["malformed_row"]
-    print("before result", total_files)
+    # print("before result", total_files)
     return {
                     "total_files": total_files,
                     "compliant_count": compliant_count,
