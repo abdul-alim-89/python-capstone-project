@@ -1,6 +1,10 @@
-from class_based.customerror import InvalidRowError
+"""Validation class for checking the compliance of module rows."""
+
 import re
+from class_based.customerror import InvalidRowError
+
 class Validation:
+    """Class to validate module rows for compliance."""
 
     __PATTERN = r"[A-Z]{2,4}-\d{3}"
     __STATUS =  {"draft", "review", "final"}
@@ -15,7 +19,8 @@ class Validation:
         "status" : "is_valid_status"
     }
 
-    def ValidationRow(self, row):
+    def validate_row(self, row):
+        """Validate a single row of module data."""
 
         issues = []
 
@@ -23,7 +28,7 @@ class Validation:
 
         for field, validator in self.__VALIDATORS.items():
             try:
-                self.__getattribute__(validator)(row[field])
+                self.__getattribute__(validator)(row.get(field))
                 module_row_compliance.append(True)
             except InvalidRowError:
                 issues.append(f"{field}_empty")
@@ -35,91 +40,15 @@ class Validation:
                 issues.append(f"{field}_invalid_type")
                 module_row_compliance.append(False)
 
-        # if not isinstance(row, dict):
-        #     raise InvalidRowError("row must be a dictionary")
-        # try:
-        #     self.is_valid_filename(row["filename"])
-        #     module_row_compliance.append(True)
-        # except InvalidRowError:
-        #     issues.append("filename_empty")
-        #     module_row_compliance.append(False)
-        # except ValueError:
-        #     issues.append("filename_invalid")
-        #     module_row_compliance.append(False)
-        
-        # try:
-        #     self.is_valid_code(row["module_code"])
-        #     module_row_compliance.append(True)
-        # except InvalidRowError:
-        #     issues.append("module_code_empty")
-        #     module_row_compliance.append(False)
-        # except ValueError:
-        #     issues.append("module_code_invalid")
-        #     module_row_compliance.append(False)
-        
-        # try:
-        #     self.is_valid_pagecount(row["page_count"])
-        #     module_row_compliance.append(True)
-        # except InvalidRowError:
-        #     issues.append("page_count_empty")
-        #     module_row_compliance.append(False)
-        # except TypeError:
-        #     issues.append("page_count_invalid_type")
-        #     module_row_compliance.append(False)
-        # except ValueError:
-        #     issues.append("page_count_invalid")
-        #     module_row_compliance.append(False)
-        
-        # try:
-        #      self.is_valid_file_size(row["file_size_kb"])
-        #      module_row_compliance.append(True)
-        # except InvalidRowError:
-        #      issues.append("file_size_kb_empty")
-        #      module_row_compliance.append(False)
-        # except TypeError:
-        #     issues.append("file_size_kb_invalid_type")
-        #     module_row_compliance.append(False)
-        # except ValueError:
-        #     issues.append("file_size_kb_invalid")
-        #     module_row_compliance.append(False)
-        
-        # try:
-        #     self.is_valid_bool(row["has_toc"])
-        #     module_row_compliance.append(True)
-            
-        # except InvalidRowError:
-        #     issues.append("has_toc_empty")
-        #     module_row_compliance.append(False)
-        # except ValueError:
-        #     issues.append("has_toc_invalid")
-        #     module_row_compliance.append(False)
-        
-        # try:
-        #     self.is_valid_bool(row["has_images"])
-        #     module_row_compliance.append(True)
-        # except InvalidRowError:
-        #     issues.append("has_images_empty")
-        #     module_row_compliance.append(False)
-        # except ValueError:
-        #     issues.append("has_images_invalid")
-        #     module_row_compliance.append(False)
-        
-        # try:
-        #     self.is_valid_status(row["status"])
-        #     module_row_compliance.append(True)
-        # except InvalidRowError:
-        #     issues.append("status_empty")
-        #     module_row_compliance.append(False)
-        # except ValueError:
-        #     issues.append("status_invalid")
-        #     module_row_compliance.append(False)
+      
 
         return len(issues) == 0, issues, module_row_compliance
         
 
 
     def is_valid_filename(self, filename):
-        if not filename:
+        """Validate the filename field."""
+        if not filename or filename.strip() == "":
             raise InvalidRowError("filename is empty")
 
         if not str(filename).lower().endswith(".pdf"):
@@ -131,28 +60,30 @@ class Validation:
 
 
     def is_valid_pagecount(self, pagecount):
-        if not pagecount:
+        """Validate the page count field."""
+        if not pagecount or pagecount.strip() == "":
             raise InvalidRowError("page count is empty")
         try:
             pagecount = int(pagecount)
-        except TypeError:
-            raise TypeError("page_count must be an integer")
-        except ValueError:
-            raise ValueError("page_count must be an integer")
+        except TypeError as exc:
+            raise TypeError("page_count must be an integer") from exc
+        except ValueError as exc:
+            raise ValueError("page_count must be an integer") from exc
         if pagecount <= 0:
             raise ValueError("page_count must be positive")
         
 
     def is_valid_file_size(self, filesize):
+        """Validate the file size field."""
 
-        if not filesize:
+        if not filesize or filesize.strip() == "":
             raise InvalidRowError("filesize is empty")
         try:
             filesize = float(filesize)
-        except TypeError:
-            raise TypeError("file_size must be an int or flot")
-        except ValueError:
-            raise ValueError("file_size must be an int or flot")
+        except TypeError as exc:
+            raise TypeError("file_size must be an int or float") from exc
+        except ValueError as exc:
+            raise ValueError("file_size must be an int or float") from exc
 
         if filesize <= 0:
             raise ValueError("file_size_kb must be positive")
@@ -160,7 +91,7 @@ class Validation:
         return True
 
     def is_valid_bool(self, val):
-        
+        """Validate the boolean field."""
         if val is None or val == "":
             raise InvalidRowError(f"{val} is empty")
 
@@ -178,8 +109,9 @@ class Validation:
         return True
 
     def is_valid_status(self, status):
+        """Validate the status field."""
 
-        if not status:
+        if not status or status.strip() == "":
             raise InvalidRowError("status is empty")
 
         status = str(status).strip().lower()
@@ -190,8 +122,9 @@ class Validation:
         return True
 
     def is_valid_code(self, code):
+        """Validate the module code field."""
 
-        if not code:
+        if not code or code.strip() == "":
             raise InvalidRowError("module_code is empty")
     
         if not re.fullmatch(self.__PATTERN, str(code)):

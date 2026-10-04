@@ -1,6 +1,5 @@
 from pathlib import Path
 import json
-from function_based.log import logger
 from function_based.customerror import InvalidRowError, MissingManifestError, EmptyInputError
 from function_based.traversedir import traverse_directory
 from function_based.process import process_file
@@ -8,6 +7,7 @@ from function_based.report import merged_report
 
 def main():
 
+    """Main function to run the compliance checker."""
 
 
     try:
@@ -29,7 +29,7 @@ def main():
                 #print(result)
         
             except (MissingManifestError, InvalidRowError) as err:
-                logger.error( "Could not process %s: %s", file, err,)
+                print("Could not process %s: %s", file, err,)
                 continue
             else:
                 reports[str(file)] = result
@@ -46,26 +46,22 @@ def main():
 
 
     except MissingManifestError as err:
-        logger.exception(err)
         print(err)
 
     except EmptyInputError as err:
-        logger.exception(err)
         print(err)
 
     except PermissionError as err:
-        logger.exception(err)
         print(err)
 
     except Exception as err:
-        logger.exception(err)
         print(err)
 
     else:
-        logger.info("Compliance checker completed successfully")
+        print("Compliance checker completed successfully")
 
     finally:
-        logger.info("Compliance checker finished")
+        print("Compliance checker finished")
 
 if __name__ == "__main__":
     main()

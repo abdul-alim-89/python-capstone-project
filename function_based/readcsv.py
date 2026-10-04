@@ -3,14 +3,7 @@ from pathlib import Path
 from function_based.customerror import InvalidRowError, MissingManifestError
 
 def read_csv(file_path: Path):
-    """
-    Read CSV file lazily.
-
-    DictReader converts every CSV row
-    into a dictionary.
-
-    yield returns one row at a time.
-    """
+    """Read CSV file lazily."""
 
     with open(file_path, "r", encoding="utf-8", newline="") as csv_file:
 

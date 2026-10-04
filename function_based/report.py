@@ -1,5 +1,8 @@
 from function_based.helper import compliance_rate
+
 def merged_report(reports):
+    """Merge multiple compliance reports into a single report."""
+    
     merged = {
     "total_files": 0,
     "compliant_count": 0,

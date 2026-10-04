@@ -4,6 +4,7 @@ from function_based.readjson import read_json
 from function_based.helper import compliance_rate, compliance_rate_by_item
 from function_based.validation import validate_row
 from function_based.customerror import InvalidRowError, MissingManifestError
+
 def read_manifest(file_path: Path):
     """Read CSV or JSON manifest."""
 
@@ -21,7 +22,8 @@ def read_manifest(file_path: Path):
         )
     
 def process_file(file):
-    print("prcoess", file)
+    """Process a single CSV or JSON file and return compliance report."""
+    # print("prcoess", file)
     issues_by_file = {}
     module_results = {}
     compliant_count = 0

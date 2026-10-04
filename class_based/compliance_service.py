@@ -1,11 +1,14 @@
+"""compliance service module to handle compliance checking for CSV and JSON files."""
+
 from pathlib import Path
+import json
 from class_based.csv_service import CsvService
 from class_based.json_service import JsonService
 from class_based.customerror import MissingManifestError, EmptyInputError, InvalidRowError
 from class_based.validation import Validation
-import json
 
 class ComplinaceService:
+    """Service class to handle compliance checking."""
 
     def __init__(self, path: Path):
         self.input_path = path
@@ -15,6 +18,7 @@ class ComplinaceService:
         self.reports = {}
 
     def generate_report(self):
+        """Generate compliance report for CSV and JSON files."""
 
         # print(f"Processing path: {self.input_path}")
         # print(f"Is file: {self.input_path.is_file()}")
@@ -38,6 +42,7 @@ class ComplinaceService:
         return json.dumps(self.reports, indent=4)
 
     def traverse_dir(self, path=None):
+        """Traverse directory to find CSV and JSON files."""
 
         path = path or self.input_path
 
@@ -62,6 +67,7 @@ class ComplinaceService:
                 yield item
 
     def read_manifest(self, file: Path):
+        """Read CSV or JSON manifest."""
 
         if file.suffix.lower() in {".csv"}:
             return self.csv.read_csv(file)
@@ -70,6 +76,7 @@ class ComplinaceService:
             return self.json.read_json(file)
 
     def process_file(self, file: Path):
+        """Process a single CSV or JSON file and return compliance report."""
 
         #print(f"Processing file: {file}")
         issues_by_file = {}
@@ -85,7 +92,7 @@ class ComplinaceService:
 
         for _, row in enumerate(rows, start=2):
             try:
-                compliant, issues, module_row_compliance = self.validation.ValidationRow(row)
+                compliant, issues, module_row_compliance = self.validation.validate_row(row)
 
             except InvalidRowError as err:
                 compliant = False
@@ -137,6 +144,7 @@ class ComplinaceService:
 
     @staticmethod
     def compliance_rate_by_item(item: list):
+        """Calculate compliance rate for a list of boolean values."""
         true_count = sum(item)
         
         rate = round((true_count / len(item)) * 100, 2)
@@ -145,6 +153,7 @@ class ComplinaceService:
 
     @staticmethod
     def compliance_rate(total_file, count):
+        """Calculate compliance rate given total files and compliant count."""
 
         if count == 0:
             return 0.0
