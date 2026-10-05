@@ -38,6 +38,7 @@ class Validation:
         for field, validator in self.__VALIDATORS.items():
             try:
                 self.__getattribute__(validator)(row.get(field))
+              
                 module_row_compliance.append(True)
             except InvalidRowError:
                 issues.append(f"{field}_empty")
